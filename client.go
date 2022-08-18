@@ -14,7 +14,7 @@ import (
 const (
 	baseURL       = "https://api.notion.com/v1"
 	apiVersion    = "2022-02-22"
-	clientVersion = "0.0.0"
+	clientVersion = "0.6.1"
 )
 
 // Client is used for HTTP requests to the Notion API.
@@ -55,6 +55,7 @@ func (c *Client) newRequest(ctx context.Context, method, url string, body io.Rea
 
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %v", c.apiKey))
 	req.Header.Set("Notion-Version", apiVersion)
+	req.Header.Add("Accept", "application/json")
 	req.Header.Set("User-Agent", "go-notion/"+clientVersion)
 
 	if body != nil {
