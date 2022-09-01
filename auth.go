@@ -1,15 +1,16 @@
 package notion
 
 import (
+	"bytes"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
-	"strings"
 )
 
+// AuthResponse is the response from the notion authentication endpoint.
 type AuthResponse struct {
 	AccessToken   string  `json:"access_token"`
 	TokenType     string  `json:"token_type"`
@@ -20,13 +21,22 @@ type AuthResponse struct {
 	Owner         Owner   `json:"owner"`
 }
 
+// Owner is the owner of a notion workspace.
 type Owner struct {
 	Type string `json:"type"`
 	User User   `json:"user"`
 }
 
+// NotionError is the error response from the Notion API.
 type NotionError struct {
 	Error string `json:"error"`
+}
+
+// NotionAuthPayload is the payload for the notion authentication endpoint.
+type NotionAuthPayload struct {
+	GrantType   string `json:"grant_type"`
+	Code        string `json:"code"`
+	RedirectURI string `json:"redirect_uri"`
 }
 
 // AuthUser authenticates with notion and returns an user access token.
@@ -37,11 +47,17 @@ func AuthUser(code string) (*AuthResponse, error) {
 	clientSecret := os.Getenv("NOTION_CLIENT_SECRET")
 	redirectURI := os.Getenv("NOTION_REDIRECT_URI")
 
-	payload := strings.NewReader(`{
-    "grant_type": "authorization_code",
-    "code": "` + code + `",
-    "redirect_uri": "` + redirectURI + `"
-}`)
+	notionAuthPayload := NotionAuthPayload{
+		GrantType:   "authorization_code",
+		Code:        code,
+		RedirectURI: redirectURI,
+	}
+
+	payload := &bytes.Buffer{}
+	err := json.NewEncoder(payload).Encode(notionAuthPayload)
+	if err != nil {
+		return nil, fmt.Errorf("notion: failed to encode filter to JSON: %w", err)
+	}
 
 	client := &http.Client{}
 	req, err := http.NewRequest("POST", url, payload)
