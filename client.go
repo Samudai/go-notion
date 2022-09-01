@@ -14,7 +14,7 @@ import (
 const (
 	baseURL       = "https://api.notion.com/v1"
 	apiVersion    = "2022-02-22"
-	clientVersion = "0.6.1"
+	clientVersion = "0.0.0"
 )
 
 // Client is used for HTTP requests to the Notion API.
