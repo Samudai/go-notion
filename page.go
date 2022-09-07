@@ -10,17 +10,17 @@ import (
 // another page, or a database.
 // See: https://developers.notion.com/reference/page
 type Page struct {
-	ID             string         `json:"id"`
-	CreatedTime    time.Time      `json:"created_time"`
-	CreatedBy      *BaseUser      `json:"created_by,omitempty"`
-	LastEditedTime time.Time      `json:"last_edited_time"`
-	LastEditedBy   *BaseUser      `json:"last_edited_by,omitempty"`
-	Parent         Parent         `json:"parent"`
-	Archived       bool           `json:"archived"`
-	URL            string         `json:"url"`
-	Icon           *Icon          `json:"icon,omitempty"`
-	Cover          *Cover         `json:"cover,omitempty"`
-	Properties     PageProperties `json:"properties"`
+	ID             string                 `json:"id"`
+	CreatedTime    time.Time              `json:"created_time"`
+	CreatedBy      *BaseUser              `json:"created_by,omitempty"`
+	LastEditedTime time.Time              `json:"last_edited_time"`
+	LastEditedBy   *BaseUser              `json:"last_edited_by,omitempty"`
+	Parent         Parent                 `json:"parent"`
+	Archived       bool                   `json:"archived"`
+	URL            string                 `json:"url"`
+	Icon           *Icon                  `json:"icon,omitempty"`
+	Cover          *Cover                 `json:"cover,omitempty"`
+	Properties     DatabasePageProperties `json:"properties"`
 }
 
 type PageTitle struct {

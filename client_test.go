@@ -525,8 +525,8 @@ func TestQueryDatabase(t *testing.T) {
 							DatabaseID: "39ddfc9d-33c9-404c-89cf-79f01c42dd0c",
 						},
 						Archived: false,
-						Properties: notion.PageProperties{
-							"Name": notion.PagePropertyID{
+						Properties: notion.DatabasePageProperties{
+							"Name": notion.DatabasePageProperty{
 								ID: "title",
 							},
 						},
@@ -1388,9 +1388,29 @@ func TestFindPageByID(t *testing.T) {
 					Type:   notion.ParentTypePage,
 					PageID: "b0668f48-8d66-4733-9bdb-2f82215707f7",
 				},
-				Properties: notion.PageProperties{
-					"title": notion.PagePropertyID{
-						ID: "title",
+				Properties: notion.DatabasePageProperties{
+					"title": notion.DatabasePageProperty{
+						ID:   "title",
+						Type: notion.DBPropTypeTitle,
+						Title: []notion.RichText{
+							{
+								Type: notion.RichTextTypeText,
+								Text: &notion.Text{
+									Content: "Lorem ipsum",
+									Link:    nil,
+								},
+								Annotations: &notion.Annotations{
+									Bold:          false,
+									Italic:        false,
+									Strikethrough: false,
+									Underline:     false,
+									Code:          false,
+									Color:         notion.ColorDefault,
+								},
+								PlainText: "Lorem ipsum",
+								HRef:      nil,
+							},
+						},
 					},
 				},
 			},
@@ -1578,8 +1598,8 @@ func TestCreatePage(t *testing.T) {
 					Type:   notion.ParentTypePage,
 					PageID: "b0668f48-8d66-4733-9bdb-2f82215707f7",
 				},
-				Properties: notion.PageProperties{
-					"title": notion.PagePropertyID{
+				Properties: notion.DatabasePageProperties{
+					"title": notion.DatabasePageProperty{
 						ID: "title",
 					},
 				},
@@ -1701,9 +1721,26 @@ func TestCreatePage(t *testing.T) {
 					Type:       notion.ParentTypeDatabase,
 					DatabaseID: "b0668f48-8d66-4733-9bdb-2f82215707f7",
 				},
-				Properties: notion.PageProperties{
-					"title": notion.PagePropertyID{
+				Properties: notion.DatabasePageProperties{
+					"title": notion.DatabasePageProperty{
 						ID: "title",
+						Title: []notion.RichText{
+							{
+								Text: &notion.Text{
+									Content: "Foobar",
+									Link:    nil,
+								},
+								Annotations: &notion.Annotations{
+									Bold:          false,
+									Italic:        false,
+									Strikethrough: false,
+									Underline:     false,
+									Code:          false,
+									Color:         notion.ColorDefault,
+								},
+								HRef: nil,
+							},
+						},
 					},
 				},
 			},
@@ -1946,9 +1983,29 @@ func TestUpdatePage(t *testing.T) {
 					Type:   notion.ParentTypePage,
 					PageID: "b0668f48-8d66-4733-9bdb-2f82215707f7",
 				},
-				Properties: notion.PageProperties{
-					"title": notion.PagePropertyID{
-						ID: "title",
+				Properties: notion.DatabasePageProperties{
+					"title": notion.DatabasePageProperty{
+						ID:   "title",
+						Type: notion.DBPropTypeTitle,
+						Title: []notion.RichText{
+							{
+								Type: notion.RichTextTypeText,
+								Text: &notion.Text{
+									Content: "Lorem ipsum",
+									Link:    nil,
+								},
+								Annotations: &notion.Annotations{
+									Bold:          false,
+									Italic:        false,
+									Strikethrough: false,
+									Underline:     false,
+									Code:          false,
+									Color:         notion.ColorDefault,
+								},
+								PlainText: "Lorem ipsum",
+								HRef:      nil,
+							},
+						},
 					},
 				},
 			},
@@ -2035,9 +2092,29 @@ func TestUpdatePage(t *testing.T) {
 						URL: "https://www.notion.so/front-static/pages/pricing/pro.png",
 					},
 				},
-				Properties: notion.PageProperties{
-					"title": notion.PagePropertyID{
-						ID: "title",
+				Properties: notion.DatabasePageProperties{
+					"title": notion.DatabasePageProperty{
+						ID:   "title",
+						Type: notion.DBPropTypeTitle,
+						Title: []notion.RichText{
+							{
+								Type: notion.RichTextTypeText,
+								Text: &notion.Text{
+									Content: "Lorem ipsum",
+									Link:    nil,
+								},
+								Annotations: &notion.Annotations{
+									Bold:          false,
+									Italic:        false,
+									Strikethrough: false,
+									Underline:     false,
+									Code:          false,
+									Color:         notion.ColorDefault,
+								},
+								PlainText: "Lorem ipsum",
+								HRef:      nil,
+							},
+						},
 					},
 				},
 			},
@@ -2115,9 +2192,29 @@ func TestUpdatePage(t *testing.T) {
 						URL: "https://example.com/image.png",
 					},
 				},
-				Properties: notion.PageProperties{
-					"title": notion.PagePropertyID{
-						ID: "title",
+				Properties: notion.DatabasePageProperties{
+					"title": notion.DatabasePageProperty{
+						ID:   "title",
+						Type: notion.DBPropTypeTitle,
+						Title: []notion.RichText{
+							{
+								Type: notion.RichTextTypeText,
+								Text: &notion.Text{
+									Content: "Lorem ipsum",
+									Link:    nil,
+								},
+								Annotations: &notion.Annotations{
+									Bold:          false,
+									Italic:        false,
+									Strikethrough: false,
+									Underline:     false,
+									Code:          false,
+									Color:         notion.ColorDefault,
+								},
+								PlainText: "Lorem ipsum",
+								HRef:      nil,
+							},
+						},
 					},
 				},
 			},
@@ -2204,9 +2301,29 @@ func TestUpdatePage(t *testing.T) {
 						URL: "https://example.com/image.png",
 					},
 				},
-				Properties: notion.PageProperties{
-					"title": notion.PagePropertyID{
-						ID: "title",
+				Properties: notion.DatabasePageProperties{
+					"title": notion.DatabasePageProperty{
+						ID:   "title",
+						Type: notion.DBPropTypeTitle,
+						Title: []notion.RichText{
+							{
+								Type: notion.RichTextTypeText,
+								Text: &notion.Text{
+									Content: "Lorem ipsum",
+									Link:    nil,
+								},
+								Annotations: &notion.Annotations{
+									Bold:          false,
+									Italic:        false,
+									Strikethrough: false,
+									Underline:     false,
+									Code:          false,
+									Color:         notion.ColorDefault,
+								},
+								PlainText: "Lorem ipsum",
+								HRef:      nil,
+							},
+						},
 					},
 				},
 			},
@@ -3589,9 +3706,29 @@ func TestSearch(t *testing.T) {
 							Type:   notion.ParentTypePage,
 							PageID: "b0668f48-8d66-4733-9bdb-2f82215707f7",
 						},
-						Properties: notion.PageProperties{
-							"title": notion.PagePropertyID{
-								ID: "title",
+						Properties: notion.DatabasePageProperties{
+							"title": notion.DatabasePageProperty{
+								ID:   "title",
+								Type: notion.DBPropTypeTitle,
+								Title: []notion.RichText{
+									{
+										Type: notion.RichTextTypeText,
+										Text: &notion.Text{
+											Content: "Foobar",
+											Link:    nil,
+										},
+										Annotations: &notion.Annotations{
+											Bold:          false,
+											Italic:        false,
+											Strikethrough: false,
+											Underline:     false,
+											Code:          false,
+											Color:         notion.ColorDefault,
+										},
+										PlainText: "Foobar",
+										HRef:      nil,
+									},
+								},
 							},
 						},
 					},
