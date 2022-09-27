@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"os"
 )
 
 // AuthResponse is the response from the notion authentication endpoint.
@@ -39,13 +38,21 @@ type NotionAuthPayload struct {
 	RedirectURI string `json:"redirect_uri"`
 }
 
-// AuthUser authenticates with notion and returns an user access token.
-func AuthUser(code string) (*AuthResponse, error) {
-	url := baseURL + "/oauth/token"
+type App struct {
+	ClientID     string
+	ClientSecret string
+}
 
-	clientID := os.Getenv("NOTION_CLIENT_ID")
-	clientSecret := os.Getenv("NOTION_CLIENT_SECRET")
-	redirectURI := os.Getenv("NOTION_REDIRECT_URI")
+func InitNotionApp(clientID, clientSecret string) *App {
+	return &App{
+		ClientID:     clientID,
+		ClientSecret: clientSecret,
+	}
+}
+
+// AuthUser authenticates with notion and returns an user access token.
+func (a *App) AuthUser(code, redirectURI string) (*AuthResponse, error) {
+	url := baseURL + "/oauth/token"
 
 	notionAuthPayload := NotionAuthPayload{
 		GrantType:   "authorization_code",
@@ -65,7 +72,7 @@ func AuthUser(code string) (*AuthResponse, error) {
 		return nil, err
 	}
 
-	auth := base64.URLEncoding.EncodeToString([]byte(clientID + ":" + clientSecret))
+	auth := base64.URLEncoding.EncodeToString([]byte(a.ClientID + ":" + a.ClientSecret))
 	req.Header.Add("Authorization", "Basic "+auth)
 	req.Header.Add("Content-Type", "application/json")
 
