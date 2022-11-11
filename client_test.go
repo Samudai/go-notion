@@ -33,6 +33,14 @@ func mustParseTime(layout, value string) time.Time {
 	return t
 }
 
+func mustParseTimePointer(layout, value string) *time.Time {
+	t, err := time.Parse(layout, value)
+	if err != nil {
+		panic(err)
+	}
+	return &t
+}
+
 func TestNewClient(t *testing.T) {
 	t.Parallel()
 
@@ -481,8 +489,167 @@ func TestQueryDatabase(t *testing.T) {
 								"archived": false,
 								"url": "https://www.notion.so/Avocado-251d2b5f268c4de2afe9c71ff92ca95c",
 								"properties": {
+									"Date": {
+										"id": "Q]uT",
+										"type": "date",
+										"name": "Date",
+										"date": {
+											"start": "2021-05-18T12:49:00.000-05:00",
+											"end": null
+										}
+									},
 									"Name": {
-										"id": "title"
+										"id": "title",
+										"type": "title",
+										"name": "Name",
+										"title": [
+											{
+												"type": "text",
+												"text": {
+													"content": "Foobar",
+													"link": null
+												},
+												"annotations": {
+													"bold": false,
+													"italic": false,
+													"strikethrough": false,
+													"underline": false,
+													"code": false,
+													"color": "default"
+												},
+												"plain_text": "Foobar",
+												"href": null
+											}
+										]
+									},
+									"Age": {
+										"id": "$9nb",
+										"type": "number",
+										"name": "Age",
+										"number": 42
+									},
+									"People": {
+										"id": "1#nc",
+										"type": "people",
+										"name": "People",
+										"people": [
+											{
+												"id": "be32e790-8292-46df-a248-b784fdf483cf",
+												"name": "Jane Doe",
+												"avatar_url": "https://example.com/image.png",
+												"type": "person",
+												"person": {
+													"email": "jane@example.com"
+												}
+											}
+										]
+									},
+									"Files": {
+										"id": "!$9x",
+										"type": "files",
+										"name": "Files",
+										"files": [
+											{
+												"name": "foobar.pdf"
+											}
+										]
+									},
+									"Checkbox": {
+										"id": "49S@",
+										"type": "checkbox",
+										"name": "Checkbox",
+										"checkbox": true
+									},
+									"URL": {
+										"id": "93$$",
+										"type": "url",
+										"name": "URL",
+										"url": "https://example.com"
+									},
+									"Email": {
+										"id": "xb3Q",
+										"type": "email",
+										"name": "Email",
+										"email": "jane@example.com"
+									},
+									"PhoneNumber": {
+										"id": "c2#Q",
+										"type": "phone_number",
+										"name": "PhoneNumber",
+										"phone_number": "867-5309"
+									},
+									"CreatedTime": {
+										"id": "s#0s",
+										"type": "created_time",
+										"name": "Created time",
+										"created_time": "2021-05-24T15:44:09.123Z"
+									},
+									"CreatedBy": {
+										"id": "49S@",
+										"type": "created_by",
+										"name": "Created by",
+										"created_by": {
+											"id": "be32e790-8292-46df-a248-b784fdf483cf",
+											"name": "Jane Doe",
+											"avatar_url": "https://example.com/image.png",
+											"type": "person",
+											"person": {
+												"email": "jane@example.com"
+											}
+										}
+									},
+									"LastEditedTime": {
+										"id": "x#0s",
+										"type": "last_edited_time",
+										"name": "Last edited time",
+										"last_edited_time": "2021-05-24T15:44:09.123Z"
+									},
+									"LastEditedBy": {
+										"id": "x9S@",
+										"type": "last_edited_by",
+										"name": "Last edited by",
+										"last_edited_by": {
+											"id": "be32e790-8292-46df-a248-b784fdf483cf",
+											"name": "Jane Doe",
+											"avatar_url": "https://example.com/image.png",
+											"type": "person",
+											"person": {
+												"email": "jane@example.com"
+											}
+										}
+									},
+									"Calculation": {
+										"id": "s(4f",
+										"type": "formula",
+										"name": "Calculation",
+										"formula": {
+											"type": "number",
+											"number": 42
+										}
+									},
+									"Relation": {
+										"id": "Cxl[",
+										"type": "relation",
+										"name": "Relation",
+										"relation": [
+											{
+												"id": "2be9597f-693f-4b87-baf9-efc545d38ebe"
+											}
+										]
+									},
+									"Rollup": {
+										"id": "xyA}",
+										"type": "rollup",
+										"name": "Rollup",
+										"rollup": {
+											"type": "array",
+											"array": [
+												{
+													"type": "number",
+													"number": 42
+												}
+											]
+										}
 									}
 								}
 							}
@@ -526,8 +693,165 @@ func TestQueryDatabase(t *testing.T) {
 						},
 						Archived: false,
 						Properties: notion.DatabasePageProperties{
+							"Date": notion.DatabasePageProperty{
+								ID:   "Q]uT",
+								Type: notion.DBPropTypeDate,
+								Name: "Date",
+								Date: &notion.Date{
+									Start: mustParseDateTime("2021-05-18T12:49:00.000-05:00"),
+								},
+							},
 							"Name": notion.DatabasePageProperty{
-								ID: "title",
+								ID:   "title",
+								Type: notion.DBPropTypeTitle,
+								Name: "Name",
+								Title: []notion.RichText{
+									{
+										Type: notion.RichTextTypeText,
+										Text: &notion.Text{
+											Content: "Foobar",
+										},
+										PlainText: "Foobar",
+										Annotations: &notion.Annotations{
+											Color: notion.ColorDefault,
+										},
+									},
+								},
+							},
+							"Age": notion.DatabasePageProperty{
+								ID:     "$9nb",
+								Type:   notion.DBPropTypeNumber,
+								Name:   "Age",
+								Number: notion.Float64Ptr(42),
+							},
+							"People": notion.DatabasePageProperty{
+								ID:   "1#nc",
+								Type: notion.DBPropTypePeople,
+								Name: "People",
+								People: []notion.User{
+									{
+										BaseUser: notion.BaseUser{
+											ID: "be32e790-8292-46df-a248-b784fdf483cf",
+										},
+										Name:      "Jane Doe",
+										AvatarURL: "https://example.com/image.png",
+										Type:      notion.UserTypePerson,
+										Person: &notion.Person{
+											Email: "jane@example.com",
+										},
+									},
+								},
+							},
+							"Files": notion.DatabasePageProperty{
+								ID:   "!$9x",
+								Type: notion.DBPropTypeFiles,
+								Name: "Files",
+								Files: []notion.File{
+									{
+										Name: "foobar.pdf",
+									},
+								},
+							},
+							"Checkbox": notion.DatabasePageProperty{
+								ID:       "49S@",
+								Type:     notion.DBPropTypeCheckbox,
+								Name:     "Checkbox",
+								Checkbox: notion.BoolPtr(true),
+							},
+							"Calculation": notion.DatabasePageProperty{
+								ID:   "s(4f",
+								Type: notion.DBPropTypeFormula,
+								Name: "Calculation",
+								Formula: &notion.FormulaResult{
+									Type:   notion.FormulaResultTypeNumber,
+									Number: notion.Float64Ptr(float64(42)),
+								},
+							},
+							"URL": notion.DatabasePageProperty{
+								ID:   "93$$",
+								Type: notion.DBPropTypeURL,
+								Name: "URL",
+								URL:  notion.StringPtr("https://example.com"),
+							},
+							"Email": notion.DatabasePageProperty{
+								ID:    "xb3Q",
+								Type:  notion.DBPropTypeEmail,
+								Name:  "Email",
+								Email: notion.StringPtr("jane@example.com"),
+							},
+							"PhoneNumber": notion.DatabasePageProperty{
+								ID:          "c2#Q",
+								Type:        notion.DBPropTypePhoneNumber,
+								Name:        "PhoneNumber",
+								PhoneNumber: notion.StringPtr("867-5309"),
+							},
+							"CreatedTime": notion.DatabasePageProperty{
+								ID:          "s#0s",
+								Type:        notion.DBPropTypeCreatedTime,
+								Name:        "Created time",
+								CreatedTime: notion.TimePtr(mustParseTime(time.RFC3339Nano, "2021-05-24T15:44:09.123Z")),
+							},
+							"CreatedBy": notion.DatabasePageProperty{
+								ID:   "49S@",
+								Type: notion.DBPropTypeCreatedBy,
+								Name: "Created by",
+								CreatedBy: &notion.User{
+									BaseUser: notion.BaseUser{
+										ID: "be32e790-8292-46df-a248-b784fdf483cf",
+									},
+									Name:      "Jane Doe",
+									AvatarURL: "https://example.com/image.png",
+									Type:      notion.UserTypePerson,
+									Person: &notion.Person{
+										Email: "jane@example.com",
+									},
+								},
+							},
+							"LastEditedTime": notion.DatabasePageProperty{
+								ID:             "x#0s",
+								Type:           notion.DBPropTypeLastEditedTime,
+								Name:           "Last edited time",
+								LastEditedTime: notion.TimePtr(mustParseTime(time.RFC3339Nano, "2021-05-24T15:44:09.123Z")),
+							},
+							"LastEditedBy": notion.DatabasePageProperty{
+								ID:   "x9S@",
+								Type: notion.DBPropTypeLastEditedBy,
+								Name: "Last edited by",
+								LastEditedBy: &notion.User{
+									BaseUser: notion.BaseUser{
+										ID: "be32e790-8292-46df-a248-b784fdf483cf",
+									},
+									Name:      "Jane Doe",
+									AvatarURL: "https://example.com/image.png",
+									Type:      notion.UserTypePerson,
+									Person: &notion.Person{
+										Email: "jane@example.com",
+									},
+								},
+							},
+							"Relation": notion.DatabasePageProperty{
+								ID:   "Cxl[",
+								Type: notion.DBPropTypeRelation,
+								Name: "Relation",
+								Relation: []notion.Relation{
+									{
+										ID: "2be9597f-693f-4b87-baf9-efc545d38ebe",
+									},
+								},
+							},
+							"Rollup": notion.DatabasePageProperty{
+								ID:   "xyA}",
+								Type: notion.DBPropTypeRollup,
+								Name: "Rollup",
+								Rollup: &notion.RollupResult{
+									Type: notion.RollupResultTypeArray,
+									Array: []notion.DatabasePageProperty{
+										{
+											Type:   notion.DBPropTypeNumber,
+											Number: notion.Float64Ptr(42),
+										},
+									},
+								},
 							},
 						},
 					},
@@ -1388,27 +1712,18 @@ func TestFindPageByID(t *testing.T) {
 					Type:   notion.ParentTypePage,
 					PageID: "b0668f48-8d66-4733-9bdb-2f82215707f7",
 				},
-				Properties: notion.DatabasePageProperties{
-					"title": notion.DatabasePageProperty{
-						ID:   "title",
-						Type: notion.DBPropTypeTitle,
+				Properties: notion.PageProperties{
+					Title: notion.PageTitle{
 						Title: []notion.RichText{
 							{
 								Type: notion.RichTextTypeText,
 								Text: &notion.Text{
 									Content: "Lorem ipsum",
-									Link:    nil,
 								},
 								Annotations: &notion.Annotations{
-									Bold:          false,
-									Italic:        false,
-									Strikethrough: false,
-									Underline:     false,
-									Code:          false,
-									Color:         notion.ColorDefault,
+									Color: notion.ColorDefault,
 								},
 								PlainText: "Lorem ipsum",
-								HRef:      nil,
 							},
 						},
 					},
@@ -1531,7 +1846,27 @@ func TestCreatePage(t *testing.T) {
 						"url": "https://www.notion.so/Avocado-251d2b5f268c4de2afe9c71ff92ca95c",
 						"properties": {
 							"title": {
-								"id": "title"
+								"id": "title",
+								"type": "title",
+								"title": [
+									{
+										"type": "text",
+										"text": {
+											"content": "Foobar",
+											"link": null
+										},
+										"annotations": {
+											"bold": false,
+											"italic": false,
+											"strikethrough": false,
+											"underline": false,
+											"code": false,
+											"color": "default"
+										},
+										"plain_text": "Foobar",
+										"href": null
+									}
+								]
 							}
 						},
 						"icon": {
@@ -1598,9 +1933,20 @@ func TestCreatePage(t *testing.T) {
 					Type:   notion.ParentTypePage,
 					PageID: "b0668f48-8d66-4733-9bdb-2f82215707f7",
 				},
-				Properties: notion.DatabasePageProperties{
-					"title": notion.DatabasePageProperty{
-						ID: "title",
+				Properties: notion.PageProperties{
+					Title: notion.PageTitle{
+						Title: []notion.RichText{
+							{
+								Type: notion.RichTextTypeText,
+								Text: &notion.Text{
+									Content: "Foobar",
+								},
+								Annotations: &notion.Annotations{
+									Color: notion.ColorDefault,
+								},
+								PlainText: "Foobar",
+							},
+						},
 					},
 				},
 				Icon: &notion.Icon{
@@ -1728,17 +2074,10 @@ func TestCreatePage(t *testing.T) {
 							{
 								Text: &notion.Text{
 									Content: "Foobar",
-									Link:    nil,
 								},
 								Annotations: &notion.Annotations{
-									Bold:          false,
-									Italic:        false,
-									Strikethrough: false,
-									Underline:     false,
-									Code:          false,
-									Color:         notion.ColorDefault,
+									Color: notion.ColorDefault,
 								},
-								HRef: nil,
 							},
 						},
 					},
@@ -1983,27 +2322,18 @@ func TestUpdatePage(t *testing.T) {
 					Type:   notion.ParentTypePage,
 					PageID: "b0668f48-8d66-4733-9bdb-2f82215707f7",
 				},
-				Properties: notion.DatabasePageProperties{
-					"title": notion.DatabasePageProperty{
-						ID:   "title",
-						Type: notion.DBPropTypeTitle,
+				Properties: notion.PageProperties{
+					Title: notion.PageTitle{
 						Title: []notion.RichText{
 							{
 								Type: notion.RichTextTypeText,
 								Text: &notion.Text{
 									Content: "Lorem ipsum",
-									Link:    nil,
 								},
 								Annotations: &notion.Annotations{
-									Bold:          false,
-									Italic:        false,
-									Strikethrough: false,
-									Underline:     false,
-									Code:          false,
-									Color:         notion.ColorDefault,
+									Color: notion.ColorDefault,
 								},
 								PlainText: "Lorem ipsum",
-								HRef:      nil,
 							},
 						},
 					},
@@ -2092,27 +2422,18 @@ func TestUpdatePage(t *testing.T) {
 						URL: "https://www.notion.so/front-static/pages/pricing/pro.png",
 					},
 				},
-				Properties: notion.DatabasePageProperties{
-					"title": notion.DatabasePageProperty{
-						ID:   "title",
-						Type: notion.DBPropTypeTitle,
+				Properties: notion.PageProperties{
+					Title: notion.PageTitle{
 						Title: []notion.RichText{
 							{
 								Type: notion.RichTextTypeText,
 								Text: &notion.Text{
 									Content: "Lorem ipsum",
-									Link:    nil,
 								},
 								Annotations: &notion.Annotations{
-									Bold:          false,
-									Italic:        false,
-									Strikethrough: false,
-									Underline:     false,
-									Code:          false,
-									Color:         notion.ColorDefault,
+									Color: notion.ColorDefault,
 								},
 								PlainText: "Lorem ipsum",
-								HRef:      nil,
 							},
 						},
 					},
@@ -2192,27 +2513,18 @@ func TestUpdatePage(t *testing.T) {
 						URL: "https://example.com/image.png",
 					},
 				},
-				Properties: notion.DatabasePageProperties{
-					"title": notion.DatabasePageProperty{
-						ID:   "title",
-						Type: notion.DBPropTypeTitle,
+				Properties: notion.PageProperties{
+					Title: notion.PageTitle{
 						Title: []notion.RichText{
 							{
 								Type: notion.RichTextTypeText,
 								Text: &notion.Text{
 									Content: "Lorem ipsum",
-									Link:    nil,
 								},
 								Annotations: &notion.Annotations{
-									Bold:          false,
-									Italic:        false,
-									Strikethrough: false,
-									Underline:     false,
-									Code:          false,
-									Color:         notion.ColorDefault,
+									Color: notion.ColorDefault,
 								},
 								PlainText: "Lorem ipsum",
-								HRef:      nil,
 							},
 						},
 					},
@@ -2301,27 +2613,18 @@ func TestUpdatePage(t *testing.T) {
 						URL: "https://example.com/image.png",
 					},
 				},
-				Properties: notion.DatabasePageProperties{
-					"title": notion.DatabasePageProperty{
-						ID:   "title",
-						Type: notion.DBPropTypeTitle,
+				Properties: notion.PageProperties{
+					Title: notion.PageTitle{
 						Title: []notion.RichText{
 							{
 								Type: notion.RichTextTypeText,
 								Text: &notion.Text{
 									Content: "Lorem ipsum",
-									Link:    nil,
 								},
 								Annotations: &notion.Annotations{
-									Bold:          false,
-									Italic:        false,
-									Strikethrough: false,
-									Underline:     false,
-									Code:          false,
-									Color:         notion.ColorDefault,
+									Color: notion.ColorDefault,
 								},
 								PlainText: "Lorem ipsum",
-								HRef:      nil,
 							},
 						},
 					},
@@ -3706,27 +4009,18 @@ func TestSearch(t *testing.T) {
 							Type:   notion.ParentTypePage,
 							PageID: "b0668f48-8d66-4733-9bdb-2f82215707f7",
 						},
-						Properties: notion.DatabasePageProperties{
-							"title": notion.DatabasePageProperty{
-								ID:   "title",
-								Type: notion.DBPropTypeTitle,
+						Properties: notion.PageProperties{
+							Title: notion.PageTitle{
 								Title: []notion.RichText{
 									{
 										Type: notion.RichTextTypeText,
 										Text: &notion.Text{
 											Content: "Foobar",
-											Link:    nil,
 										},
 										Annotations: &notion.Annotations{
-											Bold:          false,
-											Italic:        false,
-											Strikethrough: false,
-											Underline:     false,
-											Code:          false,
-											Color:         notion.ColorDefault,
+											Color: notion.ColorDefault,
 										},
 										PlainText: "Foobar",
-										HRef:      nil,
 									},
 								},
 							},
@@ -4364,6 +4658,427 @@ func TestDeleteBlock(t *testing.T) {
 				if tt.expArchived != deletedBlock.Archived() {
 					t.Fatalf("archived not equal (expected: %v, got: %v)", tt.expArchived, deletedBlock.Archived())
 				}
+			}
+		})
+	}
+}
+
+func TestCreateComment(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name           string
+		params         notion.CreateCommentParams
+		respBody       func(r *http.Request) io.Reader
+		respStatusCode int
+		expPostBody    map[string]interface{}
+		expResponse    notion.Comment
+		expError       error
+	}{
+		{
+			name: "successful response",
+			params: notion.CreateCommentParams{
+				ParentPageID: "8046f83a-09d3-4218-b308-2c0954a7f5d6",
+				RichText: []notion.RichText{
+					{
+						Text: &notion.Text{
+							Content: "This is an example comment.",
+						},
+					},
+				},
+			},
+			respBody: func(_ *http.Request) io.Reader {
+				return strings.NewReader(
+					`{
+						"created_by": {
+							"id": "25c9cc08-1afd-4d22-b9e6-31b0f6e7b44f",
+							"object": "user"
+						},
+						"created_time": "2022-09-04T14:15:00.000Z",
+						"discussion_id": "729d95d1-a804-4bc4-ab6a-adbb5de8c9b3",
+						"id": "ade11b15-10f1-474a-97dd-955073779f39",
+						"last_edited_time": "2022-09-04T14:15:00.000Z",
+						"object": "comment",
+						"parent": {
+							"page_id": "8046f83a-09d3-4218-b308-2c0954a7f5d6",
+							"type": "page_id"
+						},
+						"rich_text": [
+							{
+								"annotations": {
+									"bold": false,
+									"code": false,
+									"color": "default",
+									"italic": false,
+									"strikethrough": false,
+									"underline": false
+								},
+								"href": null,
+								"plain_text": "This is an example comment.",
+								"text": {
+									"content": "This is an example comment.",
+									"link": null
+								},
+								"type": "text"
+							}
+						]
+					}`,
+				)
+			},
+			respStatusCode: http.StatusOK,
+			expPostBody: map[string]interface{}{
+				"parent": map[string]interface{}{
+					"type":    "page_id",
+					"page_id": "8046f83a-09d3-4218-b308-2c0954a7f5d6",
+				},
+				"rich_text": []interface{}{
+					map[string]interface{}{
+						"text": map[string]interface{}{
+							"content": "This is an example comment.",
+						},
+					},
+				},
+			},
+			expResponse: notion.Comment{
+				ID:             "ade11b15-10f1-474a-97dd-955073779f39",
+				DiscussionID:   "729d95d1-a804-4bc4-ab6a-adbb5de8c9b3",
+				CreatedTime:    mustParseTime(time.RFC3339Nano, "2022-09-04T14:15:00.000Z"),
+				LastEditedTime: mustParseTime(time.RFC3339Nano, "2022-09-04T14:15:00.000Z"),
+				CreatedBy: notion.BaseUser{
+					ID: "25c9cc08-1afd-4d22-b9e6-31b0f6e7b44f",
+				},
+				Parent: notion.Parent{
+					Type:   notion.ParentTypePage,
+					PageID: "8046f83a-09d3-4218-b308-2c0954a7f5d6",
+				},
+				RichText: []notion.RichText{
+					{
+						Type: "text",
+						Annotations: &notion.Annotations{
+							Color: "default",
+						},
+						PlainText: "This is an example comment.",
+						HRef:      nil,
+						Text: &notion.Text{
+							Content: "This is an example comment.",
+						},
+					},
+				},
+			},
+			expError: nil,
+		},
+		{
+			name: "error response",
+			params: notion.CreateCommentParams{
+				ParentPageID: "8046f83a-09d3-4218-b308-2c0954a7f5d6",
+				RichText: []notion.RichText{
+					{
+						Text: &notion.Text{
+							Content: "This is an example comment.",
+						},
+					},
+				},
+			},
+			respBody: func(_ *http.Request) io.Reader {
+				return strings.NewReader(
+					`{
+						"object": "error",
+						"status": 400,
+						"code": "validation_error",
+						"message": "foobar"
+					}`,
+				)
+			},
+			respStatusCode: http.StatusBadRequest,
+			expPostBody: map[string]interface{}{
+				"parent": map[string]interface{}{
+					"type":    "page_id",
+					"page_id": "8046f83a-09d3-4218-b308-2c0954a7f5d6",
+				},
+				"rich_text": []interface{}{
+					map[string]interface{}{
+						"text": map[string]interface{}{
+							"content": "This is an example comment.",
+						},
+					},
+				},
+			},
+			expResponse: notion.Comment{},
+			expError:    errors.New("notion: failed to create comment: foobar (code: validation_error, status: 400)"),
+		},
+		{
+			name: "parent ID and discussion ID both missing error",
+			params: notion.CreateCommentParams{
+				RichText: []notion.RichText{
+					{
+						Text: &notion.Text{
+							Content: "This is an example comment.",
+						},
+					},
+				},
+			},
+			expResponse: notion.Comment{},
+			expError:    errors.New("notion: invalid comment params: either parent page ID or discussion ID is required"),
+		},
+		{
+			name: "parent ID and discussion ID both non-empty error",
+			params: notion.CreateCommentParams{
+				ParentPageID: "foo",
+				DiscussionID: "bar",
+				RichText: []notion.RichText{
+					{
+						Text: &notion.Text{
+							Content: "This is an example comment.",
+						},
+					},
+				},
+			},
+			expResponse: notion.Comment{},
+			expError:    errors.New("notion: invalid comment params: parent page ID and discussion ID cannot both be non-empty"),
+		},
+		{
+			name: "rich text zero length error",
+			params: notion.CreateCommentParams{
+				ParentPageID: "foo",
+			},
+			expResponse: notion.Comment{},
+			expError:    errors.New("notion: invalid comment params: rich text is required"),
+		},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			httpClient := &http.Client{
+				Transport: &mockRoundtripper{fn: func(r *http.Request) (*http.Response, error) {
+					postBody := make(map[string]interface{})
+
+					err := json.NewDecoder(r.Body).Decode(&postBody)
+					if err != nil && err != io.EOF {
+						t.Fatal(err)
+					}
+
+					if len(tt.expPostBody) == 0 && len(postBody) != 0 {
+						t.Errorf("unexpected post body: %#v", postBody)
+					}
+
+					if len(tt.expPostBody) != 0 && len(postBody) == 0 {
+						t.Errorf("post body not equal (expected %+v, got: nil)", tt.expPostBody)
+					}
+
+					if len(tt.expPostBody) != 0 && len(postBody) != 0 {
+						if diff := cmp.Diff(tt.expPostBody, postBody); diff != "" {
+							t.Errorf("post body not equal (-exp, +got):\n%v", diff)
+						}
+					}
+
+					return &http.Response{
+						StatusCode: tt.respStatusCode,
+						Status:     http.StatusText(tt.respStatusCode),
+						Body:       ioutil.NopCloser(tt.respBody(r)),
+					}, nil
+				}},
+			}
+			client := notion.NewClient("secret-api-key", notion.WithHTTPClient(httpClient))
+			page, err := client.CreateComment(context.Background(), tt.params)
+
+			if tt.expError == nil && err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if tt.expError != nil && err == nil {
+				t.Fatalf("error not equal (expected: %v, got: nil)", tt.expError)
+			}
+			if tt.expError != nil && err != nil && tt.expError.Error() != err.Error() {
+				t.Fatalf("error not equal (expected: %v, got: %v)", tt.expError, err)
+			}
+
+			if diff := cmp.Diff(tt.expResponse, page); diff != "" {
+				t.Fatalf("response not equal (-exp, +got):\n%v", diff)
+			}
+		})
+	}
+}
+
+func TestFindCommentsByBlockID(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name           string
+		query          notion.FindCommentsByBlockIDQuery
+		respBody       func(r *http.Request) io.Reader
+		respStatusCode int
+		expQueryParams url.Values
+		expResponse    notion.FindCommentsResponse
+		expError       error
+	}{
+		{
+			name: "successful response",
+			query: notion.FindCommentsByBlockIDQuery{
+				BlockID:     "8046f83a-09d3-4218-b308-2c0954a7f5d6",
+				StartCursor: "7c6b1c95-de50-45ca-94e6-af1d9fd295ab",
+				PageSize:    42,
+			},
+			respBody: func(_ *http.Request) io.Reader {
+				return strings.NewReader(
+					`{
+						"object": "list",
+						"results": [
+							{
+								"created_by": {
+									"id": "25c9cc08-1afd-4d22-b9e6-31b0f6e7b44f",
+									"object": "user"
+								},
+								"created_time": "2022-09-04T14:15:00.000Z",
+								"discussion_id": "729d95d1-a804-4bc4-ab6a-adbb5de8c9b3",
+								"id": "ade11b15-10f1-474a-97dd-955073779f39",
+								"last_edited_time": "2022-09-04T14:15:00.000Z",
+								"object": "comment",
+								"parent": {
+									"page_id": "8046f83a-09d3-4218-b308-2c0954a7f5d6",
+									"type": "page_id"
+								},
+								"rich_text": [
+									{
+										"annotations": {
+											"bold": false,
+											"code": false,
+											"color": "default",
+											"italic": false,
+											"strikethrough": false,
+											"underline": false
+										},
+										"href": null,
+										"plain_text": "This is an example comment.",
+										"text": {
+											"content": "This is an example comment.",
+											"link": null
+										},
+										"type": "text"
+									}
+								]
+							}
+						],
+						"next_cursor": "A^hd",
+						"has_more": true
+					}`,
+				)
+			},
+			respStatusCode: http.StatusOK,
+			expQueryParams: url.Values{
+				"block_id":     []string{"8046f83a-09d3-4218-b308-2c0954a7f5d6"},
+				"start_cursor": []string{"7c6b1c95-de50-45ca-94e6-af1d9fd295ab"},
+				"page_size":    []string{"42"},
+			},
+			expResponse: notion.FindCommentsResponse{
+				Results: []notion.Comment{
+					{
+						ID: "ade11b15-10f1-474a-97dd-955073779f39",
+						Parent: notion.Parent{
+							Type:   "page_id",
+							PageID: "8046f83a-09d3-4218-b308-2c0954a7f5d6",
+						},
+						DiscussionID: "729d95d1-a804-4bc4-ab6a-adbb5de8c9b3",
+						RichText: []notion.RichText{
+							{
+								Type: "text",
+								Annotations: &notion.Annotations{
+									Color: "default",
+								},
+								PlainText: "This is an example comment.",
+								HRef:      nil,
+								Text: &notion.Text{
+									Content: "This is an example comment.",
+								},
+							},
+						},
+						CreatedTime:    mustParseTime(time.RFC3339, "2022-09-04T14:15:00.000Z"),
+						LastEditedTime: mustParseTime(time.RFC3339, "2022-09-04T14:15:00.000Z"),
+						CreatedBy: notion.BaseUser{
+							ID: "25c9cc08-1afd-4d22-b9e6-31b0f6e7b44f",
+						},
+					},
+				},
+				HasMore:    true,
+				NextCursor: notion.StringPtr("A^hd"),
+			},
+			expError: nil,
+		},
+		{
+			name:     "without block ID",
+			query:    notion.FindCommentsByBlockIDQuery{},
+			expError: errors.New("notion: block ID query field is required"),
+		},
+		{
+			name: "error response",
+			query: notion.FindCommentsByBlockIDQuery{
+				BlockID: "8046f83a-09d3-4218-b308-2c0954a7f5d6",
+			},
+			respBody: func(_ *http.Request) io.Reader {
+				return strings.NewReader(
+					`{
+						"object": "error",
+						"status": 400,
+						"code": "validation_error",
+						"message": "foobar"
+					}`,
+				)
+			},
+			respStatusCode: http.StatusBadRequest,
+			expQueryParams: url.Values{
+				"block_id": []string{"8046f83a-09d3-4218-b308-2c0954a7f5d6"},
+			},
+			expResponse: notion.FindCommentsResponse{},
+			expError:    errors.New("notion: failed to list comments: foobar (code: validation_error, status: 400)"),
+		},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			httpClient := &http.Client{
+				Transport: &mockRoundtripper{fn: func(r *http.Request) (*http.Response, error) {
+					q := r.URL.Query()
+
+					if len(tt.expQueryParams) == 0 && len(q) != 0 {
+						t.Errorf("unexpected query params: %+v", q)
+					}
+
+					if len(tt.expQueryParams) != 0 && len(q) == 0 {
+						t.Errorf("query params not equal (expected %+v, got: nil)", tt.expQueryParams)
+					}
+
+					if len(tt.expQueryParams) != 0 && len(q) != 0 {
+						if diff := cmp.Diff(tt.expQueryParams, q); diff != "" {
+							t.Errorf("query params not equal (-exp, +got):\n%v", diff)
+						}
+					}
+
+					return &http.Response{
+						StatusCode: tt.respStatusCode,
+						Status:     http.StatusText(tt.respStatusCode),
+						Body:       ioutil.NopCloser(tt.respBody(r)),
+					}, nil
+				}},
+			}
+			client := notion.NewClient("secret-api-key", notion.WithHTTPClient(httpClient))
+			resp, err := client.FindCommentsByBlockID(context.Background(), tt.query)
+
+			if tt.expError == nil && err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if tt.expError != nil && err == nil {
+				t.Fatalf("error not equal (expected: %v, got: nil)", tt.expError)
+			}
+			if tt.expError != nil && err != nil && tt.expError.Error() != err.Error() {
+				t.Fatalf("error not equal (expected: %v, got: %v)", tt.expError, err)
+			}
+
+			if diff := cmp.Diff(tt.expResponse, resp); diff != "" {
+				t.Fatalf("response not equal (-exp, +got):\n%v", diff)
 			}
 		})
 	}

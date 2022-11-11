@@ -242,9 +242,10 @@ func (b TemplateBlock) MarshalJSON() ([]byte, error) {
 type Heading1Block struct {
 	baseBlock
 
-	RichText []RichText `json:"rich_text"`
-	Children []Block    `json:"children,omitempty"`
-	Color    Color      `json:"color,omitempty"`
+	RichText     []RichText `json:"rich_text"`
+	Children     []Block    `json:"children,omitempty"`
+	Color        Color      `json:"color,omitempty"`
+	IsToggleable bool       `json:"is_toggleable"`
 }
 
 // MarshalJSON implements json.Marshaler.
@@ -264,9 +265,10 @@ func (b Heading1Block) MarshalJSON() ([]byte, error) {
 type Heading2Block struct {
 	baseBlock
 
-	RichText []RichText `json:"rich_text"`
-	Children []Block    `json:"children,omitempty"`
-	Color    Color      `json:"color,omitempty"`
+	RichText     []RichText `json:"rich_text"`
+	Children     []Block    `json:"children,omitempty"`
+	Color        Color      `json:"color,omitempty"`
+	IsToggleable bool       `json:"is_toggleable"`
 }
 
 // MarshalJSON implements json.Marshaler.
@@ -286,9 +288,10 @@ func (b Heading2Block) MarshalJSON() ([]byte, error) {
 type Heading3Block struct {
 	baseBlock
 
-	RichText []RichText `json:"rich_text"`
-	Children []Block    `json:"children,omitempty"`
-	Color    Color      `json:"color,omitempty"`
+	RichText     []RichText `json:"rich_text"`
+	Children     []Block    `json:"children,omitempty"`
+	Color        Color      `json:"color,omitempty"`
+	IsToggleable bool       `json:"is_toggleable"`
 }
 
 // MarshalJSON implements json.Marshaler.
@@ -570,7 +573,7 @@ func (b EquationBlock) MarshalJSON() ([]byte, error) {
 type ColumnListBlock struct {
 	baseBlock
 
-	Children []Block `json:"children,omitempty"`
+	Children []ColumnBlock `json:"children,omitempty"`
 }
 
 // MarshalJSON implements json.Marshaler.
