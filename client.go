@@ -438,7 +438,7 @@ func (c *Client) FindBlockByID(ctx context.Context, blockID string) (Block, erro
 		return nil, fmt.Errorf("notion: failed to parse HTTP response: %w", err)
 	}
 
-	return dto.Block(), nil
+	return dto.Block()
 }
 
 // UpdateBlock updates a block.
@@ -473,10 +473,11 @@ func (c *Client) UpdateBlock(ctx context.Context, blockID string, block Block) (
 		return nil, fmt.Errorf("notion: failed to parse HTTP response: %w", err)
 	}
 
-	return dto.Block(), nil
+	return dto.Block()
 }
 
 // DeleteBlock sets `archived: true` on a (page) block object.
+// Will return UnsupportedBlockError if it deletes the block but cannot decode it
 // See: https://developers.notion.com/reference/delete-a-block
 func (c *Client) DeleteBlock(ctx context.Context, blockID string) (Block, error) {
 	req, err := c.newRequest(ctx, http.MethodDelete, "/blocks/"+blockID, nil)
@@ -501,7 +502,7 @@ func (c *Client) DeleteBlock(ctx context.Context, blockID string) (Block, error)
 		return nil, fmt.Errorf("notion: failed to parse HTTP response: %w", err)
 	}
 
-	return dto.Block(), nil
+	return dto.Block()
 }
 
 // FindUserByID fetches a user by ID.
